@@ -1,14 +1,15 @@
-const { Contact, contactUpdateFavoriteSchema } = require('../../models');
+const Contact = require("../../models/contacts");
 
 const { HttpError } = require('../../helpers');
 
 const updateStatusContact = async (req, res) => {
-  const { error } = contactUpdateFavoriteSchema.validate(req.body);
-  if (error) {
-    throw HttpError(400, 'missing field favorite');
-  }
   const { contactId } = req.params;
-  const contactByID = await Contact.findByIdAndUpdate({ _id: contactId }, req.body, { new: true });
+  
+  if (!contactId || Object.keys(req.body).length === 0) {
+    throw HttpError(400, "missing fields favorite");
+  }
+  
+  const contactByID = await Contact.findByIdAndUpdate(contactId, req.body, { new: true });
   if (!contactByID) {
     throw HttpError(404);
   }
