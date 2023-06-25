@@ -4,7 +4,7 @@ const router = express.Router();
 
 const contactsControllers = require('../../controllers/contacts');
 
-const { isValidId } = require('../../middlewares');
+const { isValidId, authenticate } = require('../../middlewares');
 
 const schemas = require("../../schemas/contacts");
 
