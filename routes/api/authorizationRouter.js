@@ -31,4 +31,12 @@ router.patch(
     validateBody(schemas.userUpdateSubscription),
     authorizationController.userUpdateSubscription
 );
+
+router.patch(
+    "/avatars",
+    authenticate,
+    upload.single("avatarURL"),
+    authorizationController.updateAvatarUrl
+);
+
 module.exports = router;
