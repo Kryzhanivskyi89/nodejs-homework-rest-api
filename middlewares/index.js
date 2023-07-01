@@ -4,4 +4,6 @@ const isValidId = require('./isValidId');
 
 const authenticate = require("./authenticate");
 
-module.exports = { handleMongooseError, authenticate, isValidId };
+const upload = require("./upload");
+
+module.exports = { handleMongooseError, authenticate, isValidId, upload };

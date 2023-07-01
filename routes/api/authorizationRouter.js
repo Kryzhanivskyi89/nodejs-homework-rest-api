@@ -4,7 +4,7 @@ const router = express.Router();
 
 const authorizationController = require("../../controllers/authorization");
 
-const { authenticate } = require("../../middlewares");
+const { authenticate, upload } = require("../../middlewares");
 
 const schemas = require("../../schemas/auth");
 

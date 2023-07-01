@@ -9,10 +9,10 @@ const app = require("../../app");
 
 let server = null;
 
-const idUser = "648c8af1c5216f62ad0f03df";
+const idUser = "359c8af1c5216f62ad0f03sd";
 const user = {
-    email: "qwerqwesr221@asd.com",
-    password: "123455",
+    email: "vjaoqwesr506@ukr.com",
+    password: "556633",
 };
 
 describe("test login route", () => {
