@@ -21,10 +21,14 @@ const usersSchema = new Schema(
             default: "starter",
         },
         token: String,
+        avatarURL: {
+            type: String,
+            required: true,
+        }
     },
     { versionKey: false, timestamps: true }
 );
 
 const User = model("user", usersSchema);
 
-module.exports = { User, usersSchema };
+module.exports = { User,  usersSchema};
