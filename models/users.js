@@ -5,6 +5,10 @@ const subscriptionList = require("../values/subscriptionList");
 
 const usersSchema = new Schema(
     {
+        name: {
+            type: String,
+            required: [true, "Name is required"],
+        },
         password: {
             type: String,
             required: [true, "Set password for user"],

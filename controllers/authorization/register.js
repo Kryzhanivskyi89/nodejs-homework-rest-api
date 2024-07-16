@@ -12,44 +12,48 @@ const { SERVER_URL } = process.env;
 
 const register = async (req, res) => {
     const { email, password, name } = req.body;
-    console.log(req.body);
-    if (!email) {
-    throw HttpError(400, "Missing required email field");
-  }
-
-    const user = await User.findOne({ email });
-    if (user) {
-        throw HttpError(409, "Email in use");
+    
+    if (!email || !password || !name) {
+        throw HttpError(400, "Missing required email field");
     }
 
-    const avatarURL = gravatar.url(email);
-    const hashPassword = await bcrypt.hash(password, 10);
+    try {
+        let user = await User.findOne({ email });
 
-    const verificationToken = nanoid();
+        if (user) {
+            throw HttpError(409, "Email already in use");
+        }
 
-    const newUser = await User.create({
-        // ...req.body,
-        email,
-        name,
-        avatarURL,
-        password: hashPassword,
-        verificationToken,
-    });
-    
+        const avatarURL = gravatar.url(email);
+        const hashPassword = await bcrypt.hash(password, 10);
+        const verificationToken = nanoid();
 
-    // const verifyMail = {
-    //     to: email,
-    //     subject: "Verify email",
-    //     html: `<a target="_blank" href="${SERVER_URL}/api/users/verity/${user.verificationToken}" >Click to verify</a>`,
-    // };
+        user = await User.create({
+            name,
+            email,
+            password: hashPassword,
+            avatarURL,
+            verificationToken,
+        });
 
-    // await sendEmail(verifyMail);
-    
-    res.status(201).json({
-        name: newUser.name,
-        email: newUser.email,
-        subscription: newUser.subscription,
-    });
+        // const verifyMail = {
+        //     to: email,
+        //     subject: "Verify email",
+        //     html: `<a target="_blank" href="${SERVER_URL}/api/users/verity/${user.verificationToken}" >Click to verify</a>`,
+        // };
+
+        // await sendEmail(verifyMail);
+
+        res.status(201).json({
+            name: user.name,
+            email: user.email,
+            subscription: user.subscription,
+        });
+    } catch (error) {
+        console.error("Registration error:", error.message);
+        res.status(error.status || 500).json({ message: error.message });
+    }
 };
 
-module.exports = register;
+module.exports = { register };
+    
