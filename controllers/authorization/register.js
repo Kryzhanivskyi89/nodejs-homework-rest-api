@@ -11,7 +11,11 @@ const { nanoid } = require("nanoid");
 const { SERVER_URL } = process.env;
 
 const register = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, name } = req.body;
+    console.log(req.body);
+    if (!email) {
+    throw HttpError(400, "Missing required email field");
+  }
 
     const user = await User.findOne({ email });
     if (user) {
@@ -24,22 +28,25 @@ const register = async (req, res) => {
     const verificationToken = nanoid();
 
     const newUser = await User.create({
-        ...req.body,
+        // ...req.body,
+        email,
+        name,
         avatarURL,
         password: hashPassword,
         verificationToken,
     });
     
 
-    const verifyMail = {
-        to: email,
-        subject: "Verify email",
-        html: `<a target="_blank" href="${SERVER_URL}/api/users/verity/${user.verificationToken}" >Click to verify</a>`,
-    };
+    // const verifyMail = {
+    //     to: email,
+    //     subject: "Verify email",
+    //     html: `<a target="_blank" href="${SERVER_URL}/api/users/verity/${user.verificationToken}" >Click to verify</a>`,
+    // };
 
-    await sendEmail(verifyMail);
+    // await sendEmail(verifyMail);
     
     res.status(201).json({
+        name: newUser.name,
         email: newUser.email,
         subscription: newUser.subscription,
     });

@@ -7,10 +7,7 @@ const contactsAddSchema = Joi.object({
         "any.required": `missing required name field`,
         "string.empty": `name cannot be an empty field`,
     }),
-    email: Joi.string().email().required().messages({
-        "any.required": `missing required email field`,
-        "string.empty": `email cannot be an empty field`,
-    }),
+    
     phone: Joi.string().pattern(phoneRegexp).required().messages({
         "any.required": `missing required phone field`,
         "string.empty": `phone cannot be an empty field`,

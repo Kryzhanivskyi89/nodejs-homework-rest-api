@@ -12,13 +12,13 @@ const { validateBody } = require("../../decorators");
 
 router.post(
     "/register",
-    validateBody(schemas.userAuthSchema),
+    validateBody(schemas.userRegisterSchema),
     authorizationController.register
 );
 
 router.post(
     "/login",
-    validateBody(schemas.userAuthSchema),
+    validateBody(schemas.userLoginSchema),
     authorizationController.login
 );
 router.get("/current", authenticate, authorizationController.getCurrent);

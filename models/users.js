@@ -37,6 +37,6 @@ const usersSchema = new Schema(
     { versionKey: false, timestamps: true }
 );
 
-const User = model("user", usersSchema);
+const User = model ("User", usersSchema);
 
-module.exports = { User,  usersSchema};
+module.exports =  User;

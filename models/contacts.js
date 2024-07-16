@@ -11,6 +11,7 @@ const contactSchema = new Schema(
     },
     phone: {
       type: String,
+      required: [true, 'Set number for contact'],
     },
     favorite: {
       type: Boolean,
@@ -24,6 +25,6 @@ const contactSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const Contact = model('contact', contactSchema);
+const Contact = model('Contact', contactSchema);
 
 module.exports = Contact;
