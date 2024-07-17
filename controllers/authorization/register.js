@@ -8,17 +8,17 @@ const { HttpError, sendEmail } = require("../../helpers");
 
 const { nanoid } = require("nanoid");
 
-const { SERVER_URL } = process.env;
+// const { SERVER_URL } = process.env;
 
-const register = async (req, res) => {
-    const { email, password, name } = req.body;
-    
-    if (!email || !password || !name) {
-        throw HttpError(400, "Missing required email field");
-    }
-
+const register = async (req, res, next) => {
     try {
-        let user = await User.findOne({ email });
+        const { email, password, name } = req.body;
+        
+        if (!email) {
+            throw HttpError(400, "Missing required email field");
+        }
+
+        const user = await User.findOne({ email });
 
         if (user) {
             throw HttpError(409, "Email already in use");
@@ -28,7 +28,7 @@ const register = async (req, res) => {
         const hashPassword = await bcrypt.hash(password, 10);
         const verificationToken = nanoid();
 
-        user = await User.create({
+        const newUser = await User.create({
             name,
             email,
             password: hashPassword,
@@ -45,9 +45,9 @@ const register = async (req, res) => {
         // await sendEmail(verifyMail);
 
         res.status(201).json({
-            name: user.name,
-            email: user.email,
-            subscription: user.subscription,
+            name: newUser.name,
+            email: newUser.email,
+            subscription: newUser.subscription,
         });
     } catch (error) {
         console.error("Registration error:", error.message);
@@ -55,5 +55,5 @@ const register = async (req, res) => {
     }
 };
 
-module.exports = { register };
+module.exports =  register ;
     
