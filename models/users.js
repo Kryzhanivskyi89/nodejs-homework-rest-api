@@ -38,7 +38,8 @@ const usersSchema = new Schema(
             required: [true, "Verify token is required"],
         },
     },
-    { versionKey: false, timestamps: true }
+    { versionKey: false, timestamps: true },
+    // { collection: 'db-contacts/users' }
 );
 
 const User = model ("User", usersSchema);
